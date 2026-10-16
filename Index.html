@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>أكاديمية سكينة | كوتش هاني — وعي • متعة • جودة حياة</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --sakeena-olive: #687864;
+      --sakeena-olive-dark: #4A5847;
+      --sakeena-gold: #C8A25A;
+      --sakeena-sand: #DCCBA8;
+      --sakeena-teal: #5E8C83;
+      --sakeena-bg: #FCFBF9;
+    }
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background: radial-gradient(circle at top, #FFFFFF 0%, #F6F3EC 100%);
+      color: #3B4738;
+      margin: 0;
+      padding: 0;
+    }
+    .sakeena-btn-primary {
+      background: linear-gradient(135deg, #687864 0%, #4F5E4C 100%);
+      border: 1px solid rgba(200, 162, 90, 0.45);
+    }
+    .sakeena-btn-primary:hover {
+      background: linear-gradient(135deg, #5B6B57 0%, #42503F 100%);
+    }
+    .gold-border {
+      border: 1px solid rgba(200, 162, 90, 0.38);
+    }
+    .gold-shadow {
+      box-shadow: 0 12px 35px -10px rgba(104, 120, 100, 0.14), 0 4px 15px -5px rgba(200, 162, 90, 0.1);
+    }
+    .mindfulness-circle {
+      animation: pulseCalm 8s infinite ease-in-out;
+    }
+    @keyframes pulseCalm {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.3); opacity: 1; }
+    }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #F6F3EC; }
+    ::-webkit-scrollbar-thumb { background: #C8A25A88; border-radius: 10px; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+  <header class="bg-white/95 backdrop-blur-md border-b border-[#E8DFCE] sticky top-0 z-30 px-4 py-2.5 shadow-sm">
+    <div class="max-w-5xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3.5">
+        <div class="w-14 h-14 rounded-full bg-white gold-border flex items-center justify-center overflow-hidden shadow-sm shrink-0 p-0.5">
+          <img id="headerLogoImg" src="logo.jpg" onerror="this.style.display='none'; document.getElementById('headerSvgFallback').style.display='flex';" class="w-full h-full object-contain rounded-full" alt="سكينة" />
+          <div id="headerSvgFallback" style="display:none;" class="w-full h-full items-center justify-center">
+            <svg viewBox="0 0 100 100" class="w-full h-full">
+              <circle cx="50" cy="50" r="46" fill="#FFFFFF" stroke="#C8A25A" stroke-width="2.5"/>
+              <circle cx="32" cy="40" r="9" fill="#F3E5C8" opacity="0.75"/>
+              <path d="M22 65 Q36 55 52 65 T72 62" fill="none" stroke="#DCCBA8" stroke-width="4" stroke-linecap="round"/>
+              <path d="M25 70 Q38 62 54 70" fill="none" stroke="#C8A25A" stroke-width="2" stroke-linecap="round"/>
+              <text x="52" y="63" text-anchor="middle" fill="#687864" font-family="serif" font-size="48" font-weight="bold">S</text>
+              <path d="M72 58 Q82 48 80 38 Q70 44 72 58 Z" fill="#687864"/>
+            </svg>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="font-extrabold text-xl text-[#5A6956] tracking-wide">أكاديمية سكينة</h1>
+            <span class="text-xs px-2.5 py-0.5 rounded-full bg-[#F5EFE2] text-[#9A7432] font-bold border border-[#C8A25A]/40">
+              كوتش هاني
+            </span>
+          </div>
+          <div class="flex items-center gap-2 text-xs font-bold mt-0.5">
+            <span class="text-[#687864]">وعي</span>
+            <span class="text-[#C8A25A]">•</span>
+            <span class="text-[#5E8C83]">متعة</span>
+            <span class="text-[#C8A25A]">•</span>
+            <span class="text-[#C8A25A]">جودة حياة</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button onclick="toggleMindfulnessModal()" class="text-xs px-3.5 py-2 rounded-xl bg-[#F4F6F3] hover:bg-[#E8EDE6] text-[#5A6956] gold-border transition flex items-center gap-1.5 font-bold">
+          <span>✨</span>
+          <span class="hidden sm:inline">مساحة الاتزان والصفاء الذهني</span>
+        </button>
+
+        <button onclick="openAdminModal()" class="text-xs px-3.5 py-2 rounded-xl bg-[#FAF6EE] hover:bg-[#F2E9D8] text-[#8C6928] gold-border transition font-bold">
+          ⚙️ لوحة كوتش هاني
+        </button>
+
+        <button id="logoutBtn" onclick="logoutClient()" class="hidden text-xs px-3 py-2 rounded-xl bg-red-50 text-red-700 hover:bg-red-100 transition font-bold">
+          خروج
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 flex flex-col items-center justify-center p-4">
+    <div id="loginScreen" class="w-full max-w-md bg-white rounded-3xl p-8 gold-shadow gold-border my-auto relative overflow-hidden">
+      <div class="absolute -top-16 -left-16 w-40 h-40 rounded-full bg-[#C8A25A]/10 blur-2xl pointer-events-none"></div>
+      <div class="absolute -bottom-16 -right-16 w-40 h-40 rounded-full bg-[#687864]/10 blur-2xl pointer-events-none"></div>
+
+      <div class="text-center mb-6 relative z-10">
+        <div class="w-28 h-28 mx-auto mb-3 rounded-full bg-white p-1 gold-border shadow-md flex items-center justify-center overflow-hidden">
+          <img id="loginLogoImg" src="logo.jpg" onerror="this.style.display='none'; document.getElementById('loginSvgFallback').style.display='flex';" class="w-full h-full object-contain rounded-full" alt="لوجو سكينة" />
+          <div id="loginSvgFallback" style="display:none;" class="w-full h-full items-center justify-center">
+            <svg viewBox="0 0 100 100" class="w-full h-full">
+              <circle cx="50" cy="50" r="46" fill="#FFFFFF" stroke="#C8A25A" stroke-width="2.5"/>
+              <circle cx="32" cy="40" r="9" fill="#F3E5C8" opacity="0.75"/>
+              <path d="M22 65 Q36 55 52 65 T72 62" fill="none" stroke="#DCCBA8" stroke-width="4" stroke-linecap="round"/>
+              <path d="M25 70 Q38 62 54 70" fill="none" stroke="#C8A25A" stroke-width="2" stroke-linecap="round"/>
+              <text x="52" y="63" text-anchor="middle" fill="#687864" font-family="serif" font-size="48" font-weight="bold">S</text>
+              <path d="M72 58 Q82 48 80 38 Q70 44 72 58 Z" fill="#687864"/>
+            </svg>
+          </div>
+        </div>
+
+        <h2 class="text-3xl font-extrabold text-[#687864]">سكينة</h2>
+        <p class="text-xs font-bold tracking-widest mt-1 mb-2">
+          <span class="text-[#687864]">وعي</span> <span class="text-[#C8A25A]">•</span>
+          <span class="text-[#5E8C83]">متعة</span> <span class="text-[#C8A25A]">•</span>
+          <span class="text-[#C8A25A]">جودة حياة</span>
+        </p>
+        <p class="text-xs text-[#768472]">رفيقك الذكي للوعي والكوتشينج بإشراف <strong>كوتش هاني</strong></p>
+      </div>
+
+      <div id="loginError" class="hidden mb-4 p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs text-center font-bold"></div>
+
+      <form onsubmit="handleClientLogin(event)" class="space-y-4 relative z-10">
+        <div>
+          <label class="block text-xs font-bold text-[#5A6956] mb-1.5">اسم المستخدم (Username)</label>
+          <input id="loginUsername" type="text" required placeholder="مثال: ahmed"
+            class="w-full px-4 py-3 rounded-xl bg-[#FCFBF9] border border-[#DFD5C3] focus:outline-none focus:border-[#687864] text-sm" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-[#5A6956] mb-1.5">كلمة المرور (Password)</label>
+          <input id="loginPassword" type="password" required placeholder="••••••••"
+            class="w-full px-4 py-3 rounded-xl bg-[#FCFBF9] border border-[#DFD5C3] focus:outline-none focus:border-[#687864] text-sm" />
+        </div>
+        <button id="loginSubmitBtn" type="submit"
+          class="w-full py-3.5 rounded-xl sakeena-btn-primary text-white font-bold text-sm shadow-md transition">
+          دخول إلى مساحتي الخاصة
+        </button>
+      </form>
+
+      <div class="mt-6 pt-4 border-t border-[#F0EAE0] text-center">
+        <p class="text-[11px] text-[#849280] leading-relaxed">
+          🔒 جلساتك وملفك الشخصي مشفرة بالكامل.<br/>
+          متاح التحدث <strong>بالصوت أو الكتابة</strong> باللهجة المصرية وأي لغة تفضلها.
+        </p>
+      </div>
+    </div>
+
+    <div id="chatScreen" class="hidden w-full max-w-4xl flex-1 flex flex-col bg-white rounded-3xl gold-shadow gold-border overflow-hidden h-[82vh]">
+      <div class="bg-[#FAF8F4] px-5 py-3 border-b border-[#EAE2D3] flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-2.5">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#687864] animate-pulse"></span>
+          <span class="text-sm font-extrabold text-[#4A5847]" id="welcomeClientName">جلسة كوتشينج خاصة</span>
+          <span class="text-xs text-[#9A7432] font-bold">| أكاديمية سكينة - كوتش هاني</span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <select id="voiceLangSelect" class="text-xs bg-white border border-[#DFD5C3] rounded-lg px-2.5 py-1.5 text-[#4A5847] font-bold focus:outline-none">
+            <option value="ar-EG">🎙️ الصوت: عربي (مصري)</option>
+            <option value="ar-SA">🎙️ الصوت: عربي (فصحى/خليجي)</option>
+            <option value="en-US">🎙️ Voice: English</option>
+            <option value="fr-FR">🎙️ Voice: Français</option>
+          </select>
+
+          <button id="autoSpeakBtn" onclick="toggleAutoSpeak()" class="text-xs px-3 py-1.5 rounded-lg bg-[#F2F5F1] text-[#5A6956] font-bold border border-[#687864]/30 transition">
+            🔊 نطق الردود: مفعّل
+          </button>
+        </div>
+      </div>
+
+      <div id="messagesContainer" class="flex-1 overflow-y-auto p-6 space-y-5 bg-[#FCFBF9]"></div>
+
+      <div class="p-4 bg-white border-t border-[#EAE2D3]">
+        <div id="recordingStatus" class="hidden mb-2.5 px-4 py-2 rounded-xl bg-[#F4F6F3] border border-[#687864]/30 text-[#4A5847] text-xs flex items-center justify-between font-bold">
+          <span>🎙️ الميكروفون يستمع إليك الآن.. تحدث بحرية بأي لغة ثم اضغط إرسال</span>
+          <button onclick="stopVoiceRecording()" class="text-red-600 font-bold">إيقاف التسجيل</button>
+        </div>
+
+        <form onsubmit="sendUserMessage(event)" class="flex items-end gap-2.5">
+          <button type="button" id="micBtn" onclick="toggleVoiceRecording()" title="التحدث بالصوت"
+            class="w-12 h-12 rounded-2xl bg-[#F4F6F3] hover:bg-[#E6ECE4] text-[#5A6956] flex items-center justify-center text-xl transition shrink-0 gold-border">
+            🎙️
+          </button>
+
+          <textarea id="chatInput" rows="1" placeholder="اكتب ما يدور في ذهنك أو اضغط على الميكروفون للتحدث بأي لغة..."
+            onkeydown="if(event.key === 'Enter' && !event.shiftKey){ event.preventDefault(); sendUserMessage(event); }"
+            class="flex-1 px-4 py-3.5 rounded-2xl bg-[#FCFBF9] border border-[#DFD5C3] focus:outline-none focus:border-[#687864] text-sm resize-none max-h-36"></textarea>
+
+          <button type="submit" id="sendBtn"
+            class="px-6 h-12 rounded-2xl sakeena-btn-primary text-white text-sm font-bold shadow-sm transition shrink-0">
+            إرسال
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <div id="mindfulnessModal" class="hidden fixed inset-0 bg-[#2C352A]/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-[#FCFBF9] rounded-3xl max-w-sm w-full p-7 text-center gold-border shadow-2xl">
+      <span class="text-xs font-bold px-3 py-1 rounded-full bg-[#F5EFE2] text-[#9A7432] border border-[#C8A25A]/30">
+        وعي • متعة • جودة حياة
+      </span>
+      <h3 class="text-lg font-extrabold text-[#4A5847] mt-3 mb-1">✨ مساحة الاتزان والصفاء الذهني</h3>
+      <p class="text-xs text-[#768472] mb-6">دقيقة هادئة لفصل الضغوط الخارجية واستعادة حضورك الذهني</p>
+
+      <div class="my-8 flex items-center justify-center">
+        <div class="w-32 h-32 rounded-full bg-[#687864]/15 border-2 border-[#C8A25A] flex items-center justify-center mindfulness-circle shadow-inner">
+          <span class="text-xs font-bold text-[#4A5847]">حضور.. اتزان..</span>
+        </div>
+      </div>
+
+      <p class="text-xs text-[#5A6956] mb-6 leading-relaxed">
+        اسمح لأفكارك بالهدوء الآن.. خذ شهيقاً عميقاً ببطء، واترك أي توتر يخرج مع الزفير.
+      </p>
+
+      <button onclick="toggleMindfulnessModal()" class="w-full py-3 rounded-xl sakeena-btn-primary text-white text-xs font-bold">
+        العودة إلى الجلسة بذهن صافٍ
+      </button>
+    </div>
+  </div>
+
+  <div id="adminModal" class="hidden fixed inset-0 bg-[#2C352A]/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-5xl w-full max-h-[92vh] overflow-y-auto p-6 gold-border shadow-2xl">
+      <div class="flex items-center justify-between border-b border-[#EFEAE0] pb-4 mb-4">
+        <div>
+          <h3 class="text-lg font-extrabold text-[#4A5847]">⚙️ لوحة إدارة أكاديمية سكينة — كوتش هاني</h3>
+          <p class="text-xs text-[#768472]">إدارة المشتركين، إضافة معلومات حرة، وقراءة ملفات العميل (Word / PDF / صور / Text)</p>
+        </div>
+        <button onclick="closeAdminModal()" class="text-xs font-bold px-3.5 py-1.5 rounded-xl bg-gray-100 hover:bg-gray-200">إغلاق ✕</button>
+      </div>
+
+      <div id="adminAuthSection" class="space-y-3 max-w-sm mx-auto my-8 text-center">
+        <label class="block text-xs font-bold text-[#4A5847]">كلمة مرور كوتش هاني (الافتراضية: hany2026)</label>
+        <input id="adminPassInput" type="password" placeholder="أدخل كلمة المرور"
+          class="w-full px-4 py-3 rounded-xl bg-[#FCFBF9] border border-[#DFD5C3] text-sm text-center" />
+        <button onclick="loadAdminClients()" class="w-full py-3 rounded-xl sakeena-btn-primary text-white text-xs font-bold">
+          فتح لوحة التحكم
+        </button>
+      </div>
+
+      <div id="adminDashboardContent" class="hidden space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-[#FAF6EE] p-4 rounded-2xl border border-[#C8A25A]/40">
+          <div>
+            <label class="block text-xs font-bold text-[#8C6928] mb-1">🖼️ رفع صورة اللوجو الأصلي لسكينة (اختياري)</label>
+            <input type="file" accept="image/*" onchange="handleLogoUpload(event)" class="text-xs w-full bg-white p-2 rounded-lg border border-[#DFD5C3]" />
+            <p class="text-[11px] text-[#768472] mt-1">اختر صورة اللوجو من جهازك هنا أو ارفعها باسم <code>logo.jpg</code> على GitHub.</p>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-[#8C6928] mb-1">🧠 مفتاح تشغيل عقل HANI الذكي (Gemini API Key)</label>
+            <div class="flex gap-2">
+              <input id="directGeminiKey" type="password" placeholder="AIzaSy..." class="flex-1 p-2 rounded-lg bg-white border border-[#DFD5C3] text-xs" />
+              <button type="button" onclick="saveDirectApiKey()" class="px-3 py-2 rounded-lg sakeena-btn-primary text-white text-xs font-bold">تفعيل العقل</button>
+            </div>
+            <p class="text-[11px] text-[#768472] mt-1">ضع مفتاح Gemini API هنا ليعمل الشات بكامل قوته فوراً.</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <form onsubmit="saveClientFromAdmin(event)" class="lg:col-span-7 space-y-3 bg-[#FCFBF9] p-5 rounded-2xl border border-[#E5DEC9]">
+            <h4 class="font-extrabold text-sm text-[#4A5847] border-b pb-2" id="formTitle">➕ إضافة عميل جديد أو تحديث ملفه</h4>
+            <input type="hidden" id="editClientId" />
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-xs font-bold text-[#5A6956]">اسم العميل</label>
+                <input id="f_client_name" required class="w-full p-2.5 rounded-xl bg-white border border-[#DFD5C3] text-xs mt-1" placeholder="مثال: أحمد طارق" />
+              </div>
+              <div>
+                <label class="text-xs font-bold text-[#5A6956]">حالة الاشتراك الشهري</label>
+                <select id="f_is_active" class="w-full p-2.5 rounded-xl bg-white border border-[#DFD5C3] text-xs mt-1 font-bold">
+                  <option value="true">✅ مفعّل (مشترك حالياً)</option>
+                  <option value="false">⛔ موقوف (انتهى الاشتراك)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-xs font-bold text-[#5A6956]">اسم المستخدم (Username)</label>
+                <input id="f_username" required class="w-full p-2.5 rounded-xl bg-white border border-[#DFD5C3] text-xs mt-1" placeholder="ahmed2026" />
+              </div>
+              <div>
+                <label class="text-xs font-bold text-[#5A6956]">كلمة المرور (Password)</label>
+                <input id="f_password" required class="w-full p-2.5 rounded-xl bg-white border border-[#DFD5C3] text-xs mt-1" placeholder="123456" />
+              </div>
+            </div>
+
+            <div>
+              <label class="text-xs font-bold text-[#5A6956]">الأسلوب واللهجة المفضلة للعميل</label>
+              <input id="f_preferred_style" class="w-full p-2.5 rounded-xl bg-white border border-[#DFD5C3] text-xs mt-1" placeholder="لهجة مصرية دافئة، يحب الأسئلة المختصرة العميقة" />
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div>
+                <label class="text-xs font-bold text-[#5A6956]">الخلفية والسياق الحياتي/المهني</label>
+                <textarea id="f_background" rows="2" class="w-full p-2.5 rounded-xl bg-white border border-[#DFD5C3] text-xs mt-1"></textarea>
+              </div>
+              <div>
+                <label class="text-xs font-bold text-[#5A6956]">الأهداف الكبرى الحالية</label>
+                <textarea id="f_main_goals" rows="2" class="w-full p-2.5 rounded-xl bg-white border border-[#DFD5C3] text-xs mt-1"></textarea>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div>
+                <label class="text-xs font-bold text-[#5A6956]">التحديات والأنماط والمخاوف</label>
+                <textarea id="f_challenges" rows="2" class="w-full p-2.5 rounded-xl bg-white border border-[#DFD5C3] text-xs mt-1"></textarea>
+              </div>
+              <div>
+                <label class="text-xs font-bold text-[#5A6956]">نقاط القوة والموارد النفسية</label>
+                <textarea id="f_strengths" rows="2" class="w-full p-2.5 rounded-xl bg-white border border-[#DFD5C3] text-xs mt-1"></textarea>
+              </div>
+            </div>
+
+            <div>
+              <label class="text-xs font-bold text-[#5A6956]">ملخص آخر جلسة مع كوتش هاني والخطوة المتفق عليها</label>
+              <textarea id="f_last_session" rows="2" class="w-full p-2.5 rounded-xl bg-white border border-[#DFD5C3] text-xs mt-1"></textarea>
+            </div>
+
+            <div>
+              <label class="text-xs font-bold text-[#5A6956]">توجيهات كوتش هاني الخاصة لـ HANI</label>
+              <textarea id="f_coach_notes" rows="2" class="w-full p-2.5 rounded-xl bg-white border border-[#DFD5C3] text-xs mt-1"></textarea>
+            </div>
+
+            <div class="pt-2 border-t border-[#E5DEC9]">
+              <label class="text-xs font-extrabold text-[#8C6928] block">
+                📝 إضافة معلومات جديدة / إضافية حرة عن العميل
+              </label>
+              <textarea id="f_additional_info" rows="5" placeholder="اكتب هنا أي معلومات إضافية بحرية تامة، أو ارفع ملفات بالأسفل (Word / PDF / Text / صورة) ليتم قراءتها وإضافتها هنا تلقائياً..."
+                class="w-full p-3 rounded-xl bg-white border-2 border-[#C8A25A]/40 focus:border-[#687864] text
